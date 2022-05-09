@@ -1,0 +1,139 @@
+/* ********** Custom Properties ********** */
+:root {
+  --color-primary: rgb(114, 136, 159);
+  --color-white: rgb(255, 255, 255);
+  --font: "Roboto", sans-serif;
+  --max-width: 1152px;
+}
+
+/* ********** Reset ********** */
+html {
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: 16px;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h2 {
+  margin: 30px 0 16px 0;
+}
+
+p {
+  margin: 0 0 16px 0;
+}
+
+h3 {
+  margin: 0px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+/* ********** Components ********** */
+.box {
+  padding: 0 30px;
+}
+/* ********** Utilities ********** */
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--max-width);
+}
+
+.flex {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: var(--space-flex);
+}
+
+.flex-direction-col {
+  flex-direction: column;
+}
+/* ********** Site Styles ********** */
+body {
+  flex-direction: row-reverse;
+  background-color: rgba(0, 0, 0, 0.913);
+}
+
+h2 {
+  border-bottom: 2px solid;
+}
+
+/* ELEMENTO DERECHA */
+.right {
+  background-color: rgb(255, 255, 255);
+  width: 70%;
+}
+
+.right h2 {
+  border-bottom-color: var(--color-primary);
+}
+
+/* ELEMENTO DE LA IZQUIERDA */
+.left {
+  width: 30%;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+h2 {
+  color: initial;
+  border-bottom-color: white;
+}
+
+/* PERFIL */
+.foto_perfil {
+  align-self: center;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  border-radius: 1000px;
+}
+
+.foto_perfil img {
+  position: relative;
+  left: -35%;
+  height: 100%;
+}
+
+/* CONTACTO */
+.contacto a {
+  display: flex;
+  gap: 20px;
+}
+
+/* SOFTWARE */
+.circle {
+  display: inline-block;
+  background-color: rgb(255, 255, 255);
+  width: 15px;
+  height: 15px;
+  border-radius: 1000px;
+}
+
+.father-circle {
+  float: right;
+}
+.father-circle span {
+  margin-left: 5px;
+}
+
+/* IDIOMAS */
+.progress-bar {
+  display: inline-block;
+  width: 50px;
+  height: 15px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 1000px;
+}
