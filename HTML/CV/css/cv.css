@@ -24,6 +24,10 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  margin: 0;
+}
+
 h2 {
   margin: 30px 0 16px 0;
 }
@@ -53,13 +57,25 @@ a {
 
 .flex {
   display: flex;
-  /* justify-content: space-between; */
   gap: var(--space-flex);
 }
 
 .flex-direction-col {
   flex-direction: column;
 }
+
+.primary-color {
+  color: var(--color-primary);
+}
+
+.padding-top-50px {
+  padding-top: 50px;
+}
+
+.weight-400 {
+  font-weight: 400;
+}
+
 /* ********** Site Styles ********** */
 body {
   flex-direction: row-reverse;
@@ -67,7 +83,7 @@ body {
 }
 
 h2 {
-  border-bottom: 2px solid;
+  border-bottom: 1.5px solid;
 }
 
 /* ELEMENTO DERECHA */
@@ -76,8 +92,41 @@ h2 {
   width: 70%;
 }
 
-.right h2 {
+.right h1 {
+  letter-spacing: 10px;
+}
+
+.right > :nth-child(2) {
+  margin-top: 0;
   border-bottom-color: var(--color-primary);
+}
+
+.right > h2 {
+  margin-top: 80px;
+}
+
+/* EXPERIENCIA PROFESIONAL */
+.row > :first-child {
+  width: 20%;
+}
+.row > :nth-child(2) {
+  position: relative;
+  width: 80%;
+  padding: 0 50px 40px 50px;
+  border-left: 1.5px solid var(--color-primary);
+}
+
+.row > :last-child{
+  padding-bottom: 0;
+}
+
+.disc {
+  position: absolute;
+  left: -8px;
+  width: 15px;
+  height: 15px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 1000px;
 }
 
 /* ELEMENTO DE LA IZQUIERDA */
@@ -87,7 +136,7 @@ h2 {
   background-color: var(--color-primary);
 }
 
-h2 {
+.left h2 {
   color: initial;
   border-bottom-color: white;
 }
@@ -114,25 +163,37 @@ h2 {
 }
 
 /* SOFTWARE */
+.software {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.software > p {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  width: 100%;
+}
+
+.software > p > :first-child {
+  margin-right: auto;
+}
+
 .circle {
   display: inline-block;
-  background-color: rgb(255, 255, 255);
   width: 15px;
   height: 15px;
+  background-color: rgb(255, 255, 255);
   border-radius: 1000px;
 }
 
-.father-circle {
-  float: right;
-}
-.father-circle span {
-  margin-left: 5px;
-}
-
 /* IDIOMAS */
+.idiomas p {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+}
 .progress-bar {
   display: inline-block;
-  width: 50px;
   height: 15px;
   background-color: rgb(0, 0, 0);
   border-radius: 1000px;
