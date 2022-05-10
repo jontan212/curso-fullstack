@@ -1,0 +1,102 @@
+/* FONT FAMILY */
+@font-face {
+  font-family: "Product Sans";
+  src: url("../assets/ProductSans-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+/* ********** Custom Properties ********** */
+:root {
+  --font: "Product Sans", sans-serif;
+}
+/* ********** Reset ********** */
+html {
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: 16px;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ********** Components ********** */
+.flex {
+  display: flex;
+}
+/* ********** Utilities ********** */
+.border-collapse {
+  border-collapse: collapse;
+}
+.black {
+  color: rgb(32, 33, 36);
+}
+
+.weight-300 {
+  font-weight: 300;
+}
+
+.gray {
+  color: rgb(112, 117, 122);
+}
+
+/* ********** Site Styles ********** */
+
+/* HEADER */
+header {
+  align-items: center;
+  gap: 1rem;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* NAV */
+header nav {
+  align-items: center;
+  margin-left: auto;
+}
+
+header nav > :first-child {
+  margin-right: 1rem;
+}
+
+header nav > :nth-child(2) {
+  margin-right: 1.75rem;
+}
+
+header nav > :nth-child(3) {
+  margin-right: 1.25rem;
+}
+
+header nav .sesion {
+  padding: 0.625rem 1.5rem;
+  color: rgb(255, 255, 255);
+  background-color: rgb(26, 115, 232);
+  border-radius: 4px;
+}
+
+.point {
+  width: 0.25rem;
+  height: 0.25rem;
+  background-color: rgb(95 99 104);
+  border-radius: 1000px;
+}
+
+/* MAIN */
+main a {
+  color: #1a0dab;
+}
