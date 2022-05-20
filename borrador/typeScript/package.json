@@ -1,0 +1,15 @@
+{
+  "name": "borrador",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./disc/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
