@@ -11,7 +11,7 @@ export class AppComponent {
   numero2: number = 0;
   resultado: number = 0;
 
-  calculadora(event: Event):void {
+  calculadora(event: Event): void {
     let operador: string = (<HTMLInputElement>event.target).innerHTML;
     switch (operador) {
       case '+':
