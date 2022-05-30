@@ -18,31 +18,19 @@ class MarcoRaton extends JFrame {
 		setVisible(true);
 		setBounds(700, 300, 600, 450);
 		EventosDeRaton EventoRaton = new EventosDeRaton();
-		addMouseListener(EventoRaton);
-	}
-}
-class EventosDeRaton implements MouseListener {
-	/* Si al pulsar se mueve en el proceso, no funciona */
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("has hecho click");
-	}
-
-	public void mousePressed(MouseEvent e) {
-		System.out.println("Acabas de presionar");
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		System.out.println("Acabas de levantar");
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		System.out.println("Acabas de entrar");
-	}
-
-	public void mouseExited(MouseEvent e) {
-		System.out.println("Acabas de salir");
+		addMouseMotionListener(EventoRaton);
 	}
 }
 
+class EventosDeRaton implements MouseMotionListener {
+	/* Mientras arrastro algo */
+	public void mouseDragged(MouseEvent e) {
+		System.out.println("Estás arrastrando");
+	}
 
+	/* Mientras muevo el ratón */
+	public void mouseMoved(MouseEvent e) {
+		System.out.println("Estás moviendo");
+	}
 
+}
