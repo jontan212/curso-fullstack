@@ -3,6 +3,7 @@ package graficos;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -27,6 +28,7 @@ class LaminaFoco extends JPanel {
 	/* Cuadros de texto */
 	JTextField cuadro1;
 	JTextField cuadro2;
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		/* Invalida la colocación por defecto */
@@ -43,14 +45,26 @@ class LaminaFoco extends JPanel {
 		LanzaFocos elFoco = new LanzaFocos();
 		cuadro1.addFocusListener(elFoco);
 	}
+
 	private class LanzaFocos implements FocusListener {
 		/* Cuando gana el foco */
 		public void focusGained(FocusEvent e) {
-			System.out.println("He ganado el foco");
 		}
+
 		/* Cuando pierde el foco */
 		public void focusLost(FocusEvent e) {
-			System.out.println("He perdido el foco");
+			String email = cuadro1.getText();
+			boolean comprobacion = false;
+			for (int i = 0; i < email.length(); i++) {
+				if (email.charAt(i) == '@') {
+					comprobacion = true;
+				}
+			}
+			if (comprobacion) {
+				System.out.println("Correcto");
+			} else {
+				System.out.println("Incorrecto");
+			}
 		}
 	}
 }
