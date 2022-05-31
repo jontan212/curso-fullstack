@@ -28,7 +28,6 @@ class PanelAccion extends JPanel {
 				Color.YELLOW);
 		AccionColor accionAzul = new AccionColor("Azul", new ImageIcon("src/graficos/bola_azul.png"), Color.BLUE);
 		AccionColor accionRojo = new AccionColor("Rojo", new ImageIcon("src/graficos/bola_roja.png"), Color.RED);
-		/* No les haría falta un fuente.ad...(oyente) */
 		add(new JButton(accionAmarillo));
 		add(new JButton(accionAzul));
 		add(new JButton(accionRojo));
@@ -37,11 +36,13 @@ class PanelAccion extends JPanel {
 		 * dentro de la ventana del foco
 		 */
 		InputMap mapaEntrada = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-//		KeyStroke teclaAmarillo = KeyStroke.getKeyStroke("ctrl A");
+		// KeyStroke teclaAmarillo = KeyStroke.getKeyStroke("ctrl A");
+		/* Se asigna tecla a un objeto */
 		mapaEntrada.put(KeyStroke.getKeyStroke("ctrl A"), "fondo_amarillo");
 		mapaEntrada.put(KeyStroke.getKeyStroke("ctrl B"), "fondo_azul");
 		mapaEntrada.put(KeyStroke.getKeyStroke("ctrl R"), "fondo_rojo");
 		ActionMap mapaAccion = getActionMap();
+		/* Se asigna el objeto a una acción */
 		mapaAccion.put("fondo_amarillo", accionAmarillo);
 		mapaAccion.put("fondo_azul", accionAzul);
 		mapaAccion.put("fondo_rojo", accionRojo);
