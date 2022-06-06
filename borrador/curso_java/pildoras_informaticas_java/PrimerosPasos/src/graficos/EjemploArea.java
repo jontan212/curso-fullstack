@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class EjemploArea {
-
 	public static void main(String[] args) {
 		MarcoArea mimarco = new MarcoArea();
 		mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
