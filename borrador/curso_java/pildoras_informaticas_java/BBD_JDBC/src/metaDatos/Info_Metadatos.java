@@ -49,10 +49,9 @@ public class Info_Metadatos {
 			DatabaseMetaData datosBBDD = miConexion.getMetaData();
 			// Lista de tablas
 			System.out.println("Lista de tablas:");
-
 			miResultSet = datosBBDD.getTables(null, null, null, null);
 			// devuelve solo las tablas que empiezan con p
-//			miResultSet = datosBBDD.getTables(null, null, "p%", null);
+			// miResultSet = datosBBDD.getTables(null, null, "p%", null);
 			while (miResultSet.next()) {
 				System.out.println(miResultSet.getString("TABLE_NAME"));
 			}
@@ -60,10 +59,9 @@ public class Info_Metadatos {
 			// Lista de columnas de la tabla PRODUCTOS
 			System.out.println("");
 			System.out.println("Campos de productos:");
-
 			// Si dejo el 3er arg en null, me mostraria el nombre de las columnas de TODAS
 			// las tablas
-//			miResultSet = datosBBDD.getTables(null, null, null, null);
+			// miResultSet = datosBBDD.getTables(null, null, null, null);
 			// Solo quiero el nombre de las columnas de la tabla PRODUCTOS
 			miResultSet = datosBBDD.getColumns(null, null, "productos", null);
 			while (miResultSet.next()) {
