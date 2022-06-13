@@ -209,7 +209,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         nombreCamarero.setText("Camarero:");
 
         precioTotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        precioTotal.setText("0..0");
+        precioTotal.setText("0.0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -484,6 +484,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     productosSeleccionados.add(producto);
                     anadirProductoAlTicket(button.getText());
                 } else {
+                    // ELIMINAR PRODUCTO DE LA TABLA DEL TICKET
+                    eliminarProductoDelTicket(button.getText());
                     // ELIMINAR PRODUCTO DE LA LISTA AL DESELECCIONAR
                     Iterator itr = productosSeleccionados.iterator();
                     while (itr.hasNext()) {
@@ -504,7 +506,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /* Añadir producto al ticket */
     public void anadirProductoAlTicket(String nombreProducto) {
         DefaultTableModel model = (DefaultTableModel) tablaTicket.getModel();
-
         try {
             // CREAR OBJETO STATEMENT
             Statement st = con.createStatement();
@@ -514,9 +515,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             float precio = rs.getFloat("Precio");
             float[] valores = recuperarUnidadyTotal(nombreProducto);
             if (valores == null) {
-                model.addRow(new Object[]{nombreProducto, 1, rs.getFloat("Precio"), precio * 1});
+                model.addRow(new Object[]{nombreProducto, 1, precio, precio * 1});
             } else {
-                model.addRow(new Object[]{nombreProducto, valores[0] + 1, rs.getFloat("Precio"), precio * 1});
+                float unidades = valores[0] + 1;
+                int fila = (int) valores[1];
+                /* Meter las unidades */
+                tablaTicket.setValueAt(unidades, fila, 1);
+                /* Meter precio total */
+                tablaTicket.setValueAt(unidades * precio, fila, 3);
             }
             rs.close();
         } catch (SQLException sqe) {
@@ -524,18 +530,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    /* Eliminar producto del ticket*/
+    public void eliminarProductoDelTicket(String nombreProducto) {
+        float[] unidadYFila = recuperarUnidadyTotal(nombreProducto);
+        float unidad = unidadYFila[0] - 1;
+        int fila = (int) unidadYFila[1];
+        float precio = (float) tablaTicket.getValueAt(fila, 2);
+//        System.out.println(unidadYFila[0] + " unidades: " + unidad + ", fila: " + fila + ", " + ", precio: " + precio);
+        tablaTicket.setValueAt(unidad, fila, 1);
+        tablaTicket.setValueAt(precio * unidad, fila, 1);
+    }
+
     public float[] recuperarUnidadyTotal(String nombreProducto) {
         float[] valores = null;
         for (int i = 1; i < tablaTicket.getRowCount(); i++) {
             String nombreFila = (String) tablaTicket.getValueAt(i, 0);
-            System.out.println(tablaTicket.getValueAt(i, 1).getClass().getSimpleName());
             if (nombreProducto.equalsIgnoreCase(nombreFila)) {
-                Integer s1 = new Integer((int) tablaTicket.getValueAt(i, 1));
-                float valor1 = s1.floatValue();
-                Integer s2 = new Integer((int) tablaTicket.getValueAt(i, 3));
-                float valor2 = s2.floatValue();
-                valores[0] = valor1;
-                valores[1] = valor2;
+                valores = new float[3];
+                float unidad = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
+                valores[0] = unidad;
+                valores[1] = i;
             }
         }
         return valores;
