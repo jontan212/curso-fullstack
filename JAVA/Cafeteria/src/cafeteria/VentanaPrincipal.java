@@ -8,8 +8,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -389,13 +387,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 // CREAR OBJETOS STATEMENT
                 PreparedStatement stBuscarCamarero = con.prepareStatement("SELECT * FROM camareros WHERE Nombre=?");
                 PreparedStatement stCrearTicket = con.prepareStatement("INSERT INTO detalle_mesa (ID_Camarero, ID_Mesa, Total_Ticket) VALUES (?, ?, ?)");
-                PreparedStatement stRecuperarIdTicket = con.prepareStatement("SELECT *, MAX(Fecha) FROM detalle_mesa");
-                PreparedStatement stCrearDetallesTicket = con.prepareStatement("INSERT INTO desglose_venta VALUES (?, ?)");
+                PreparedStatement stRecuperarIdTicket = con.prepareStatement("SELECT *  FROM detalle_mesa ORDER BY Fecha DESC LIMIT 1");
+                PreparedStatement stRecuperarIdProducto = con.prepareStatement("SELECT * FROM productos WHERE Nombre_Producto=?");
+                PreparedStatement stCrearDetallesTicket = con.prepareStatement("INSERT INTO desglose_venta VALUES (?, ?, ?)");
                 con.setAutoCommit(false);
                 // EJECUTAR SENTENCIAS SQL
                 // BUSCAR CAMARERO
                 stBuscarCamarero.setString(1, camareroConectado);
-                // EJECUTAR Y RECORRER CONSULTA
                 ResultSet rs = stBuscarCamarero.executeQuery();
                 rs.next();
                 String idCamarero = rs.getString("ID_Camarero");
@@ -408,10 +406,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 stCrearTicket.executeUpdate();
                 rs.close();
 
-//                for (int i = 1; i < tablaTicket.getRowCount(); i++) {
-//                    String nombreProducto = tablaTicket.getValueAt(i, 0) + "";
-//                    float unidadProducto = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
-//                }
+                // BUSCAR ID TICKET
+                rs = stRecuperarIdTicket.executeQuery();
+                rs.next();
+                int idTicket = rs.getInt("ID_Ticket");
+                fechaTicket.setText(rs.getString("Fecha"));
+                numeroTicket.setText("Número de ticket: " + idTicket);
+                rs.close();
+                for (int i = 1; i < tablaTicket.getRowCount(); i++) {
+                    String nombreProducto = tablaTicket.getValueAt(i, 0) + "";
+                    float unidadProducto = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
+                    // BUSCAR ID PRODUCTO
+                    stRecuperarIdProducto.setString(1, nombreProducto);
+                    rs = stRecuperarIdProducto.executeQuery();
+                    rs.next();
+                    String idProducto = rs.getString("ID_Producto");
+                    rs.close();
+                    // CREAR desglose_venta
+                    stCrearDetallesTicket.setInt(1, idTicket);
+                    stCrearDetallesTicket.setString(2, idProducto);
+                    stCrearDetallesTicket.setFloat(3, unidadProducto);
+                    stCrearDetallesTicket.executeUpdate();
+                }
                 // LIMPIAR PRODUCTOS YA PAGADOS
                 Iterator itr = productosSeleccionados.iterator();
                 while (itr.hasNext()) {
@@ -421,9 +437,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
                 jPPagarProductos.updateUI();
                 jLPagadoNoPagado.setText("PAGADO");
-                System.out.println(jLPagadoNoPagado.getText());
                 con.commit();
-                System.out.println("Ticket subido");
             } catch (SQLException sqe) {
                 try {
                     con.rollback();
@@ -616,6 +630,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             model.removeRow(i);
                         }
                         precioTotal.setText("0.0");
+                        fechaTicket.setText("Fecha");
+                        numeroTicket.setText("Número de ticket:");
                         jLPagadoNoPagado.setText("SIN PAGAR");
                     }
                     productosSeleccionados.add(producto);
