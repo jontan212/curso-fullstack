@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -22,12 +24,13 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     /* -------------- Varibles propias -------------- */
-    String urlBD = "jdbc:mysql://localhost/cafetería";
-    String usernameBD = "root";
-    String passwordBD = "";
-    Connection con;
-
-    ArrayList<JButton> productosSeleccionados = new ArrayList<JButton>();
+    private String urlBD = "jdbc:mysql://localhost/cafetería";
+    private String usernameBD = "root";
+    private String passwordBD = "";
+    private Connection con;
+    
+    private ArrayList<JButton> productosSeleccionados = new ArrayList<JButton>();
+    private String camareroConectado;
 
     /**
      * Creates new form VentanaPrincipal
@@ -56,10 +59,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         /* -------------- Productos -------------- */
         pintarProductos();
         /* -------------- Productos a pagar -------------- */
-//        DefaultTableModel model = (DefaultTableModel) tablaTicket.getModel();
-//        for (int i = 1; i <= 10; i++) {
-//            model.addRow(new Object[]{i, i, i, i});
-//        }
+        jTabbedPane3.setEnabledAt(1, false);
+        jTabbedPane3.setEnabledAt(2, false);
     }
 
     /**
@@ -85,10 +86,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         tablaTicket = new javax.swing.JTable();
         numeroTicket = new javax.swing.JLabel();
         fechaTicket = new javax.swing.JLabel();
-        nombreCamarero = new javax.swing.JLabel();
+        nombreCamareroTicket = new javax.swing.JLabel();
         precioTotal = new javax.swing.JLabel();
-        JBCancelar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBCancelar = new javax.swing.JButton();
+        jBgenerarTicket = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPPagarProductos = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -206,7 +207,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         fechaTicket.setText("Fecha");
 
-        nombreCamarero.setText("Camarero:");
+        nombreCamareroTicket.setText("Camarero:");
 
         precioTotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         precioTotal.setText("0.0");
@@ -215,45 +216,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tablaTicket, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(nombreCamarero)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                        .addComponent(numeroMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(169, 169, 169))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(precioTotal))
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(numeroTicket)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGap(168, 168, 168)
+                                .addComponent(numeroMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(numeroTicket))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(nombreCamareroTicket)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(fechaTicket)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(precioTotal)
+                        .addComponent(fechaTicket)))
                 .addContainerGap())
-            .addComponent(tablaTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(numeroMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nombreCamarero)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(numeroMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(numeroTicket)
-                    .addComponent(fechaTicket))
-                .addGap(18, 18, 18)
+                    .addComponent(fechaTicket)
+                    .addComponent(nombreCamareroTicket))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(numeroTicket)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tablaTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(33, 33, 33)
+                .addGap(35, 35, 35)
                 .addComponent(precioTotal)
-                .addGap(417, 417, 417))
+                .addGap(393, 393, 393))
         );
 
         if (tablaTicket.getColumnModel().getColumnCount() > 0) {
@@ -266,22 +263,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jScrollPane5.setViewportView(jPanel9);
 
-        JBCancelar.setBackground(new java.awt.Color(255, 51, 51));
-        JBCancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        JBCancelar.setForeground(new java.awt.Color(255, 255, 255));
-        JBCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelarBoton.png"))); // NOI18N
-        JBCancelar.setText("Cancelar");
-        JBCancelar.addActionListener(new java.awt.event.ActionListener() {
+        jBCancelar.setBackground(new java.awt.Color(255, 51, 51));
+        jBCancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jBCancelar.setForeground(new java.awt.Color(255, 255, 255));
+        jBCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelarBoton.png"))); // NOI18N
+        jBCancelar.setText("Cancelar");
+        jBCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBCancelarActionPerformed(evt);
+                jBCancelarActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(51, 255, 51));
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/check.png"))); // NOI18N
-        jButton2.setText("Generar Ticket");
+        jBgenerarTicket.setBackground(new java.awt.Color(51, 255, 51));
+        jBgenerarTicket.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jBgenerarTicket.setForeground(new java.awt.Color(255, 255, 255));
+        jBgenerarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/check.png"))); // NOI18N
+        jBgenerarTicket.setText("Generar Ticket");
+        jBgenerarTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBgenerarTicketActionPerformed(evt);
+            }
+        });
 
         jPPagarProductos.setPreferredSize(new java.awt.Dimension(570, 1000));
         jScrollPane2.setViewportView(jPPagarProductos);
@@ -303,9 +305,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPFacturacionLayout.createSequentialGroup()
-                        .addComponent(JBCancelar)
+                        .addComponent(jBCancelar)
                         .addGap(68, 68, 68)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jBgenerarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -318,8 +320,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JBCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jBCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBgenerarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(65, 65, 65))
                     .addGroup(jPFacturacionLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -359,12 +361,47 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void JBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBCancelarActionPerformed
-        for (JButton producto : productosSeleccionados) {
+    private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
+        Iterator itr = productosSeleccionados.iterator();
+        while (itr.hasNext()) {
+            JButton producto = (JButton) itr.next();
+            eliminarProductoDelTicket(producto.getText());
             jPPagarProductos.remove(producto);
-            jPPagarProductos.updateUI();
+            itr.remove();
         }
-    }//GEN-LAST:event_JBCancelarActionPerformed
+        jPPagarProductos.updateUI();
+    }//GEN-LAST:event_jBCancelarActionPerformed
+
+    private void jBgenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgenerarTicketActionPerformed
+        if (tablaTicket.getRowCount() != 1) {
+            try {
+                // CREAR OBJETO STATEMENT
+//                Statement st = con.createStatement();
+                PreparedStatement sentencia = con.prepareStatement("INSERT INTO detalle_mesa (ID_Camarero, ID_Mesa, Total_Ticket) VALUES (?, ?, ?)");
+                con.setAutoCommit(false);
+                // EJECUTAR SENTENCIAS SQL
+//                st.executeUpdate("INSERT INTO ");
+                String idMesa = numeroMesa.getText().substring(5);
+                float total = Float.parseFloat(precioTotal.getText());
+                sentencia.setString(1, "");
+                sentencia.setString(2, idMesa);
+                sentencia.setFloat(3, total);
+                for (int i = 1; i < tablaTicket.getRowCount(); i++) {
+                    String nombreProducto = tablaTicket.getValueAt(i, 0) + "";
+                    float unidadProducto = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
+                }
+                
+                con.commit();
+            } catch (SQLException sqe) {
+                try {
+                    con.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("Error siguiente: " + sqe.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jBgenerarTicketActionPerformed
 
     /**
      * @param args the command line arguments
@@ -408,20 +445,54 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             // CREAR OBJETO STATEMENT
             Statement st = con.createStatement();
             // EJECUTAR SQL
-            ResultSet rs = st.executeQuery("SELECT Nombre, ID_Camarero FROM CAMAREROS");
+            ResultSet rs = st.executeQuery("SELECT * FROM CAMAREROS");
             while (rs.next()) {
                 String nombreCamarero = rs.getString("Nombre");
                 String idCamarero = rs.getString("ID_Camarero");
                 String urlCamarero = "/img/" + idCamarero + ".jpg";
+                int password = rs.getInt("Contraseña");
                 Color colorFondo = new Color(147, 147, 147);
                 Color colorHover = new Color(200, 200, 200);
                 JButton btn_camarero = pintarTarjetas(nombreCamarero, urlCamarero, colorFondo, colorHover, 150, 150);
+                btn_camarero.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        String valorJOption = JOptionPane.showInputDialog(VentanaPrincipal.this, "Introduzca la contraseña", "Login", JOptionPane.INFORMATION_MESSAGE);
+                        int passwordJOption = Integer.parseInt(valorJOption == null ? "-1" : valorJOption);
+                        if (passwordJOption == password) {
+                            jTabbedPane3.setEnabledAt(1, true);
+                            jTabbedPane3.setEnabledAt(2, true);
+                            logout();
+                            camareroConectado = nombreCamarero;
+                            nombreCamareroTicket.setText("Camarero: " + camareroConectado);
+                        }
+                    }
+                });
                 jPSeleccionarCamareros.add(btn_camarero);
             }
             rs.close();
         } catch (SQLException sqe) {
             System.out.println("Error siguiente: " + sqe.getMessage());
         }
+    }
+
+    /* Logout */
+    public void logout() {
+        Component[] btn_camareros = jPSeleccionarCamareros.getComponents();
+        for (Component btn_camarero : btn_camareros) {
+            jPSeleccionarCamareros.remove(btn_camarero);
+            jPSeleccionarCamareros.updateUI();
+        }
+        JButton desconectarse = new JButton("Logout");
+        desconectarse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                jPSeleccionarCamareros.remove(desconectarse);
+                pintarCamareros();
+                jTabbedPane3.setEnabledAt(1, false);
+                jTabbedPane3.setEnabledAt(2, false);
+                camareroConectado = null;
+            }
+        });
+        jPSeleccionarCamareros.add(desconectarse);
     }
 
     /* Pintar mesas */
@@ -433,9 +504,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             // EJECUTAR SQL
             ResultSet rs = st.executeQuery("SELECT * FROM MESAS");
             while (rs.next()) {
-                Color colorFondo = rs.getInt("Estado") == 0 ? Color.GREEN : Color.ORANGE;
-                JButton mesa = pintarTarjetas(rs.getNString("ID_Mesa"), "/img/imgMesa.png", colorFondo, Color.PINK, 150, 150);
+                int estado = rs.getInt("Estado");
+                String id_Mesa = rs.getString("ID_Mesa");
+                Color colorFondo = estado == 0 ? Color.GREEN : Color.RED;
+                JButton mesa = pintarTarjetas(id_Mesa, "/img/imgMesa.png", colorFondo, Color.PINK, 150, 150);
                 mesa.setFont(new Font("Serif", Font.BOLD, 30));
+                mesa.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        try {
+                            // CREAR OBJETO STATEMENT
+                            Statement miStatment = con.createStatement();
+                            // EJECUTAR SQL
+                            if (estado == 0) {
+                                miStatment.executeUpdate("UPDATE mesas SET Estado=1 WHERE ID_Mesa='" + id_Mesa + "'");
+                                numeroMesa.setText("Mesa " + mesa.getText());
+                            } else if (estado == 1) {
+                                miStatment.executeUpdate("UPDATE mesas SET Estado=0 WHERE ID_Mesa='" + id_Mesa + "'");
+                                numeroMesa.setText("Mesa");
+                            }
+                        } catch (SQLException sqe) {
+                            System.out.println("Error siguiente: " + sqe.getMessage());
+                        }
+                        
+                        Component[] mesas = jPSeleccionarMesas.getComponents();
+                        for (Component mesa : mesas) {
+                            jPSeleccionarMesas.remove(mesa);
+                        }
+                        pintarMesas();
+                        jPSeleccionarMesas.updateUI();
+                    }
+                });
                 jPSeleccionarMesas.add(mesa);
             }
             rs.close();
@@ -446,7 +544,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     /* Pintar productos */
     public void pintarProductos() {
-//        jPElegirProductos.setLayout(new FlowLayout());
         try {
             // CREAR OBJETO STATEMENT
             Statement st = con.createStatement();
@@ -479,7 +576,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 AbstractButton button = (AbstractButton) e.getSource();
                 Color colorActual = button.getBackground();
-
+                
                 if (colorActual == Color.WHITE) {
                     productosSeleccionados.add(producto);
                     anadirProductoAlTicket(button.getText());
@@ -513,9 +610,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery("SELECT * FROM PRODUCTOS WHERE Nombre_Producto=" + "'" + nombreProducto + "'");
             rs.next();
             float precio = rs.getFloat("Precio");
-            float[] valores = recuperarUnidadyTotal(nombreProducto);
+            float[] valores = recuperarUnidadyFila(nombreProducto);
             if (valores == null) {
                 model.addRow(new Object[]{nombreProducto, 1, precio, precio * 1});
+                /* CALCULAR PRECIO TOTAL */
+                precioTotal.setText((Float.parseFloat(precioTotal.getText()) + precio) + "");
             } else {
                 float unidades = valores[0] + 1;
                 int fila = (int) valores[1];
@@ -523,6 +622,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 tablaTicket.setValueAt(unidades, fila, 1);
                 /* Meter precio total */
                 tablaTicket.setValueAt(unidades * precio, fila, 3);
+                /* CALCULAR PRECIO TOTAL */
+                precioTotal.setText((Float.parseFloat(precioTotal.getText()) + precio) + "");
             }
             rs.close();
         } catch (SQLException sqe) {
@@ -532,21 +633,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     /* Eliminar producto del ticket*/
     public void eliminarProductoDelTicket(String nombreProducto) {
-        float[] unidadYFila = recuperarUnidadyTotal(nombreProducto);
+        DefaultTableModel model = (DefaultTableModel) tablaTicket.getModel();
+        float[] unidadYFila = recuperarUnidadyFila(nombreProducto);
         float unidad = unidadYFila[0] - 1;
         int fila = (int) unidadYFila[1];
         float precio = (float) tablaTicket.getValueAt(fila, 2);
-//        System.out.println(unidadYFila[0] + " unidades: " + unidad + ", fila: " + fila + ", " + ", precio: " + precio);
-        tablaTicket.setValueAt(unidad, fila, 1);
-        tablaTicket.setValueAt(precio * unidad, fila, 1);
+        /* CALCULAR PRECIO TOTAL */
+        float precioTotalTicket = Float.parseFloat(precioTotal.getText()) < 0 ? 0 : Float.parseFloat(precioTotal.getText());
+        precioTotal.setText((precioTotalTicket - precio) + "");
+        if (unidad == 0) {
+            model.removeRow(fila);
+        } else {
+            tablaTicket.setValueAt(unidad, fila, 1);
+            tablaTicket.setValueAt(precio * unidad, fila, 3);
+        }
     }
-
-    public float[] recuperarUnidadyTotal(String nombreProducto) {
+    
+    public float[] recuperarUnidadyFila(String nombreProducto) {
         float[] valores = null;
         for (int i = 1; i < tablaTicket.getRowCount(); i++) {
             String nombreFila = (String) tablaTicket.getValueAt(i, 0);
             if (nombreProducto.equalsIgnoreCase(nombreFila)) {
-                valores = new float[3];
+                valores = new float[2];
                 float unidad = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
                 valores[0] = unidad;
                 valores[1] = i;
@@ -573,7 +681,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 super.mouseEntered(evt);
                 btnTarjeta.setBackground(colorHover);
             }
-
+            
             public void mouseExited(MouseEvent evt) {
                 super.mouseExited(evt);
                 btnTarjeta.setBackground(colorFondo);
@@ -592,9 +700,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton JBCancelar;
     private javax.swing.JLabel fechaTicket;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jBCancelar;
+    private javax.swing.JButton jBgenerarTicket;
     private javax.swing.JPanel jPCamareros;
     private javax.swing.JPanel jPElegirProductos;
     private javax.swing.JPanel jPFacturacion;
@@ -609,7 +717,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JLabel nombreCamarero;
+    private javax.swing.JLabel nombreCamareroTicket;
     private javax.swing.JLabel numeroMesa;
     private javax.swing.JLabel numeroTicket;
     private javax.swing.JLabel precioTotal;
