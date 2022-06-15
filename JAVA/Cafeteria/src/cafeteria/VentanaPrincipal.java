@@ -28,7 +28,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private String usernameBD = "root";
     private String passwordBD = "";
     private Connection con;
-    
+
     private ArrayList<JButton> productosSeleccionados = new ArrayList<JButton>();
     private String camareroConectado;
 
@@ -88,6 +88,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fechaTicket = new javax.swing.JLabel();
         nombreCamareroTicket = new javax.swing.JLabel();
         precioTotal = new javax.swing.JLabel();
+        jLPagadoNoPagado = new javax.swing.JLabel();
         jBCancelar = new javax.swing.JButton();
         jBgenerarTicket = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -212,6 +213,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         precioTotal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         precioTotal.setText("0.0");
 
+        jLPagadoNoPagado.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLPagadoNoPagado.setText("SIN PAGAR");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -222,6 +226,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLPagadoNoPagado)
+                        .addGap(120, 120, 120)
                         .addComponent(precioTotal))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,16 +247,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addComponent(numeroMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaTicket)
-                    .addComponent(nombreCamareroTicket))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreCamareroTicket, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fechaTicket))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(numeroTicket)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tablaTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(35, 35, 35)
-                .addComponent(precioTotal)
-                .addGap(393, 393, 393))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(precioTotal)
+                    .addComponent(jLPagadoNoPagado))
+                .addGap(401, 401, 401))
         );
 
         if (tablaTicket.getColumnModel().getColumnCount() > 0) {
@@ -369,29 +377,53 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPPagarProductos.remove(producto);
             itr.remove();
         }
+        if (Float.parseFloat(precioTotal.getText()) < 0) {
+            precioTotal.setText("0.0");
+        }
         jPPagarProductos.updateUI();
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jBgenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgenerarTicketActionPerformed
         if (tablaTicket.getRowCount() != 1) {
             try {
-                // CREAR OBJETO STATEMENT
-//                Statement st = con.createStatement();
-                PreparedStatement sentencia = con.prepareStatement("INSERT INTO detalle_mesa (ID_Camarero, ID_Mesa, Total_Ticket) VALUES (?, ?, ?)");
+                // CREAR OBJETOS STATEMENT
+                PreparedStatement stBuscarCamarero = con.prepareStatement("SELECT * FROM camareros WHERE Nombre=?");
+                PreparedStatement stCrearTicket = con.prepareStatement("INSERT INTO detalle_mesa (ID_Camarero, ID_Mesa, Total_Ticket) VALUES (?, ?, ?)");
+                PreparedStatement stRecuperarIdTicket = con.prepareStatement("SELECT *, MAX(Fecha) FROM detalle_mesa");
+                PreparedStatement stCrearDetallesTicket = con.prepareStatement("INSERT INTO desglose_venta VALUES (?, ?)");
                 con.setAutoCommit(false);
                 // EJECUTAR SENTENCIAS SQL
-//                st.executeUpdate("INSERT INTO ");
+                // BUSCAR CAMARERO
+                stBuscarCamarero.setString(1, camareroConectado);
+                // EJECUTAR Y RECORRER CONSULTA
+                ResultSet rs = stBuscarCamarero.executeQuery();
+                rs.next();
+                String idCamarero = rs.getString("ID_Camarero");
+                // CREAR TICKET
                 String idMesa = numeroMesa.getText().substring(5);
                 float total = Float.parseFloat(precioTotal.getText());
-                sentencia.setString(1, "");
-                sentencia.setString(2, idMesa);
-                sentencia.setFloat(3, total);
-                for (int i = 1; i < tablaTicket.getRowCount(); i++) {
-                    String nombreProducto = tablaTicket.getValueAt(i, 0) + "";
-                    float unidadProducto = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
+                stCrearTicket.setString(1, idCamarero);
+                stCrearTicket.setString(2, idMesa);
+                stCrearTicket.setFloat(3, total);
+                stCrearTicket.executeUpdate();
+                rs.close();
+
+//                for (int i = 1; i < tablaTicket.getRowCount(); i++) {
+//                    String nombreProducto = tablaTicket.getValueAt(i, 0) + "";
+//                    float unidadProducto = Float.parseFloat(tablaTicket.getValueAt(i, 1) + "");
+//                }
+                // LIMPIAR PRODUCTOS YA PAGADOS
+                Iterator itr = productosSeleccionados.iterator();
+                while (itr.hasNext()) {
+                    JButton producto = (JButton) itr.next();
+                    jPPagarProductos.remove(producto);
+                    itr.remove();
                 }
-                
+                jPPagarProductos.updateUI();
+                jLPagadoNoPagado.setText("PAGADO");
+                System.out.println(jLPagadoNoPagado.getText());
                 con.commit();
+                System.out.println("Ticket subido");
             } catch (SQLException sqe) {
                 try {
                     con.rollback();
@@ -525,7 +557,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         } catch (SQLException sqe) {
                             System.out.println("Error siguiente: " + sqe.getMessage());
                         }
-                        
+
                         Component[] mesas = jPSeleccionarMesas.getComponents();
                         for (Component mesa : mesas) {
                             jPSeleccionarMesas.remove(mesa);
@@ -574,10 +606,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         producto.setBackground(Color.WHITE);
         producto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                DefaultTableModel model = (DefaultTableModel) tablaTicket.getModel();
                 AbstractButton button = (AbstractButton) e.getSource();
                 Color colorActual = button.getBackground();
-                
+
                 if (colorActual == Color.WHITE) {
+                    if (jLPagadoNoPagado.getText().equals("PAGADO")) {
+                        for (int i = tablaTicket.getRowCount() - 1; i > 0; i--) {
+                            model.removeRow(i);
+                        }
+                        precioTotal.setText("0.0");
+                        jLPagadoNoPagado.setText("SIN PAGAR");
+                    }
                     productosSeleccionados.add(producto);
                     anadirProductoAlTicket(button.getText());
                 } else {
@@ -648,7 +688,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             tablaTicket.setValueAt(precio * unidad, fila, 3);
         }
     }
-    
+
     public float[] recuperarUnidadyFila(String nombreProducto) {
         float[] valores = null;
         for (int i = 1; i < tablaTicket.getRowCount(); i++) {
@@ -681,7 +721,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 super.mouseEntered(evt);
                 btnTarjeta.setBackground(colorHover);
             }
-            
+
             public void mouseExited(MouseEvent evt) {
                 super.mouseExited(evt);
                 btnTarjeta.setBackground(colorFondo);
@@ -703,6 +743,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel fechaTicket;
     private javax.swing.JButton jBCancelar;
     private javax.swing.JButton jBgenerarTicket;
+    private javax.swing.JLabel jLPagadoNoPagado;
     private javax.swing.JPanel jPCamareros;
     private javax.swing.JPanel jPElegirProductos;
     private javax.swing.JPanel jPFacturacion;
