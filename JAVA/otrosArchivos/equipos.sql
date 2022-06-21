@@ -27,7 +27,8 @@ CREATE TABLE `entradas` (
   `email` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL,
-  `codigo` int(11) NOT NULL
+  `codigo` int(11) NOT NULL,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,7 +38,7 @@ CREATE TABLE `entradas` (
 
 LOCK TABLES `entradas` WRITE;
 /*!40000 ALTER TABLE `entradas` DISABLE KEYS */;
-INSERT INTO `entradas` VALUES ('Luis','luismb@gmail.coom',10,40,1),('Messi','massi@gmail.com',100,100,2);
+INSERT INTO `entradas` VALUES ('jonathan','jon@gmail.com',343,157,2),('Luis','luismb@gmail.coom',10,40,1),('Messi','massi@gmail.com',100,100,2);
 /*!40000 ALTER TABLE `entradas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-20 14:27:59
+-- Dump completed on 2022-06-21 14:19:20

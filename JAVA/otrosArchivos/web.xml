@@ -174,6 +174,30 @@
     <servlet-class>ProbarPasoVariables</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>Comprar</servlet-name>
+    <servlet-class>Comprar</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ReservarEntrada</servlet-name>
+    <servlet-class>ReservarEntrada</servlet-class>
+    <init-param>
+      <param-name>driver</param-name>
+      <param-value>com.mysql.jdbc.Driver</param-value>
+    </init-param>
+  </servlet>
+  <servlet>
+    <servlet-name>Formulario</servlet-name>
+    <servlet-class>Formulario</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Insertar</servlet-name>
+    <servlet-class>Insertar</servlet-class>
+    <init-param>
+      <param-name>driver</param-name>
+      <param-value>com.mysql.jdbc.Driver</param-value>
+    </init-param>
+  </servlet>
+  <servlet>
     <servlet-name>CompressionFilterTestServlet</servlet-name>
     <servlet-class>compressionFilters.CompressionFilterTestServlet</servlet-class>
   </servlet>
@@ -237,6 +261,22 @@
   <servlet-mapping>
     <servlet-name>ProbarPasoVariables</servlet-name>
     <url-pattern>/servlets/servlet/ProbarPasoVariables</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Comprar</servlet-name>
+    <url-pattern>/servlets/servlet/Comprar</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReservarEntrada</servlet-name>
+    <url-pattern>/servlets/servlet/ReservarEntrada</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Formulario</servlet-name>
+    <url-pattern>/servlets/servlet/Formulario</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Insertar</servlet-name>
+    <url-pattern>/servlets/servlet/Insertar</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>RequestInfoExample</servlet-name>
