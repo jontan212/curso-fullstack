@@ -23,7 +23,7 @@ public class ReservarEntrada extends HttpServlet {
             Class.forName(drv);
             System.out.println("Driver cargado");
         } catch (ClassNotFoundException cne) {
-            System.out.println("Driver no cargado" + cne.getMessage());
+            System.out.println("Driver no cargado " + cne.getMessage());
         }
     }
 
