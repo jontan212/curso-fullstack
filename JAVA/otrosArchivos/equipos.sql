@@ -38,7 +38,7 @@ CREATE TABLE `entradas` (
 
 LOCK TABLES `entradas` WRITE;
 /*!40000 ALTER TABLE `entradas` DISABLE KEYS */;
-INSERT INTO `entradas` VALUES ('jonathan','jon@gmail.com',343,157,2),('Luis','luismb@gmail.coom',10,40,1),('Messi','massi@gmail.com',100,100,2);
+INSERT INTO `entradas` VALUES ('carlo','carlo@gmail.com',226,383,2),('dewd','dwdw@dewd',640,242,1),('jonathan','jon@gmail.com',343,157,2),('Luis','luismb@gmail.coom',10,40,1),('Messi','massi@gmail.com',100,100,2),('michael','michael@gmail.com',430,231,1);
 /*!40000 ALTER TABLE `entradas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-21 14:19:20
+-- Dump completed on 2022-06-22 14:07:55

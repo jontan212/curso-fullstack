@@ -30,7 +30,7 @@
 
 	Gracias por enviar tus preferencias!
 
-	<a href="agenciaViajes.jsp">Ir a la agencia de viajes.</a>
+	<a href="agencia_viajes.jsp">Ir a la agencia de viajes.</a>
 
 </body>
 </html>

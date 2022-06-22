@@ -26,7 +26,7 @@ public class Formulario extends HttpServlet {
         pw.println("<BODY>");
 
         pw.println("<H1>Tus datos:</H1>");
-        pw.println("<FORM ACTION='http://localhost:8080/examples/servlets/servlet/Insertar'>");
+        pw.println("<FORM ACTION='http://localhost:8080/examples/servlets/servlet/InsertarTicket'>");
         pw.println("Nombre: <input type='text' name='nombre' size='20'><br>");
         pw.println("Email: <input type='email' name='email' size='20'>");
         pw.println("<input type='hidden' name='x' value='" + peticion.getParameter("mimapa.x") + "'><br>");

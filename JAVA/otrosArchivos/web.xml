@@ -190,8 +190,8 @@
     <servlet-class>Formulario</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>Insertar</servlet-name>
-    <servlet-class>Insertar</servlet-class>
+    <servlet-name>InsertarTicket</servlet-name>
+    <servlet-class>InsertarTicket</servlet-class>
     <init-param>
       <param-name>driver</param-name>
       <param-value>com.mysql.jdbc.Driver</param-value>
@@ -275,8 +275,8 @@
     <url-pattern>/servlets/servlet/Formulario</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>Insertar</servlet-name>
-    <url-pattern>/servlets/servlet/Insertar</url-pattern>
+    <servlet-name>InsertarTicket</servlet-name>
+    <url-pattern>/servlets/servlet/InsertarTicket</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>RequestInfoExample</servlet-name>

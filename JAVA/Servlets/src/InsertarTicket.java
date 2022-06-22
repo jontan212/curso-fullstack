@@ -13,7 +13,7 @@ import java.sql.*;
  *
  * @author manana
  */
-public class Insertar extends HttpServlet {
+public class InsertarTicket extends HttpServlet {
 
     String drv;
 
@@ -49,6 +49,7 @@ public class Insertar extends HttpServlet {
             st.setInt(5, codigo);
             System.out.println(st);
             st.executeUpdate();
+            st.close();
 
         } catch (SQLException sqe) {
             System.out.println("No se pudo conectar " + sqe.getMessage());
@@ -62,6 +63,7 @@ public class Insertar extends HttpServlet {
         pw.println("<BODY>");
 
         pw.println("<H1>Compra realizada con éxito</H1>");
+        pw.println("<meta http-equiv='refresh' content='5; url=/equipos/equipos.html'>");
 
         pw.println("</BODY>");
         pw.println("</HTML>");
