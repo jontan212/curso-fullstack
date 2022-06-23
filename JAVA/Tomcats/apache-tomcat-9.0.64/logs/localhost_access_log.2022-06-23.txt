@@ -1,0 +1,3 @@
+0:0:0:0:0:0:0:1 - - [23/Jun/2022:14:07:31 +0200] "GET /laboratorio/lab01/MiServlets HTTP/1.1" 404 723
+0:0:0:0:0:0:0:1 - - [23/Jun/2022:14:07:40 +0200] "GET /laboratorio/lab01/MiServlet HTTP/1.1" 200 62
+0:0:0:0:0:0:0:1 - - [23/Jun/2022:14:07:49 +0200] "GET /laboratorio/lab01/PoolTest HTTP/1.1" 200 62
