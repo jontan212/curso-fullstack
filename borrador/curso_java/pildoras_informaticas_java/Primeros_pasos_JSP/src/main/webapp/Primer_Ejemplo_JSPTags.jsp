@@ -4,7 +4,8 @@
 
 <%
 String alumnos[] = { "Antonio", "Sandra", "Maria", "Paco" };
-
+// permite acceder al objeto pageContext asociado a la página JSP. 
+// Es posible acceder mediante este objeto al resto de objetos de la página JSP
 pageContext.setAttribute("losAlumnos", alumnos);
 %>
 
@@ -15,20 +16,16 @@ pageContext.setAttribute("losAlumnos", alumnos);
 <title>Insert title here</title>
 </head>
 <body>
-
 	<!-- Sin JSP TAGS -->
-
 	<%
-	 	for(String alumnoTemp: alumnos) {
-	 		out.print(alumnoTemp + "<br>");
-	 	}
+	// for (String alumnoTemp : alumnos) {
+	//	out.print(alumnoTemp + "<br>");
+	// }
 	%>
-
 	<!-- Con JSP TAGS -->
-
-<%-- 	<c:forEach var="alumnoTemp" items="${losAlumnos}"> --%>
-<%-- 	${alumnoTemp} <br> --%>
-<%-- 	</c:forEach> --%>
+	<c:forEach var="alumnoTemp" items="${losAlumnos}">
+		${alumnoTemp} <br>
+	</c:forEach>
 
 </body>
 </html>
