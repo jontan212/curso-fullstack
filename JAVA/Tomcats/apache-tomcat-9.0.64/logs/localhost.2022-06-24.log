@@ -1582,3 +1582,6 @@ Stacktrace:
 		at java.lang.Thread.run(Thread.java:745)
 24-Jun-2022 12:51:53.948 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextDestroyed()
 24-Jun-2022 12:51:53.948 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextDestroyed()
+24-Jun-2022 21:07:22.049 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+24-Jun-2022 21:07:22.049 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+24-Jun-2022 21:07:22.051 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@5be46f9d')

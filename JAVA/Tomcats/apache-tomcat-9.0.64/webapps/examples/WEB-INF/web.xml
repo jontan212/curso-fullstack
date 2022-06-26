@@ -153,7 +153,67 @@
         <servlet-name>SessionExample</servlet-name>
         <servlet-class>SessionExample</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ElegirDistrito</servlet-name>
+        <servlet-class>ElegirDistrito</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MarcarPunto</servlet-name>
+        <servlet-class>MarcarPunto</servlet-class>
+        <init-param>
+          <param-name>driver</param-name>
+          <param-value>com.mysql.jdbc.Driver</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>FormularioQueja</servlet-name>
+        <servlet-class>FormularioQueja</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertarQueja</servlet-name>
+        <servlet-class>InsertarQueja</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConsultarQuejas</servlet-name>
+        <servlet-class>ConsultarQuejas</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PorMapa</servlet-name>
+        <servlet-class>PorMapa</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PorSexo</servlet-name>
+        <servlet-class>PorSexo</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+      <servlet-name>ElegirDistrito</servlet-name>
+      <url-pattern>/sistemasQuejas/ElegirDistrito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>MarcarPunto</servlet-name>
+      <url-pattern>/sistemasQuejas/MarcarPunto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>FormularioQueja</servlet-name>
+      <url-pattern>/sistemasQuejas/FormularioQueja</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>InsertarQueja</servlet-name>
+      <url-pattern>/sistemasQuejas/InsertarQueja</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>ConsultarQuejas</servlet-name>
+      <url-pattern>/sistemasQuejas/ConsultarQuejas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>PorMapa</servlet-name>
+      <url-pattern>/sistemasQuejas/PorMapa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>PorSexo</servlet-name>
+      <url-pattern>/sistemasQuejas/PorSexo</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CompressionFilterTestServlet</servlet-name>
         <url-pattern>/CompressionTest</url-pattern>
