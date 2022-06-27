@@ -1,0 +1,6 @@
+27-Jun-2022 10:59:52.454 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+27-Jun-2022 10:59:52.454 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+27-Jun-2022 10:59:52.457 INFORMACIÓN [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@63f259c3')
+27-Jun-2022 11:00:53.442 INFORMACIÓN [Catalina-utility-1] org.apache.catalina.core.ApplicationContext.log SessionListener: sessionDestroyed('EC676EF31294F3B99B7A9C584A42504A')
+27-Jun-2022 11:00:53.443 INFORMACIÓN [Catalina-utility-1] org.apache.catalina.core.ApplicationContext.log SessionListener: attributeRemoved('EC676EF31294F3B99B7A9C584A42504A', 'codigo', '3')
+27-Jun-2022 11:00:53.443 INFORMACIÓN [Catalina-utility-1] org.apache.catalina.core.ApplicationContext.log SessionListener: attributeRemoved('EC676EF31294F3B99B7A9C584A42504A', 'nombre', 'Retiro')
