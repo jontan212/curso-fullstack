@@ -5,8 +5,8 @@
 
 <%
 Vector v=new Vector(); 
-// Una forma igual session. putValue("nombre", request. getParameter("nombre"));
-session.setAttribute("nombre", request. getParameter("nombre")); 
+// Una forma igual session. putValue("nombre", request.getParameter("nombre"));
+session.setAttribute("nombre", request.getParameter("nombre")); 
 application.setAttribute( "opinion" ,v) ; 
 %>
 <frameset rows="60%,*"> 

@@ -35,6 +35,15 @@
     <servlet-name>PoolTest</servlet-name>
     <servlet-class>PoolTest</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Grados</servlet-name>
+    <servlet-class>beans.Grados</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Campo</servlet-name>
+    <servlet-class>beans.Campo</servlet-class>
+  </servlet>
+
   <!-- Mapping -->
   <servlet-mapping>
     <servlet-name>MiServlet</servlet-name>
