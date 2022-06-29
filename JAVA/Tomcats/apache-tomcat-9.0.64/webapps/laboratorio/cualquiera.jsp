@@ -1,16 +1,14 @@
-<%@ page errorPage="error.htm" %>
-<!DOCTYPE html>
-<html lang="en">
+
+<%@ page errorPage="error.jsp" %>
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 </head>
 <body>
-    <%
+<%
     String cadena=null;
     int longitud=cadena.length();
-    %>
+%>
 </body>
 </html>
+
